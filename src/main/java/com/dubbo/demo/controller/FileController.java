@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -21,12 +20,10 @@ public class FileController {
 
     //type 0 process img,1 process txt,2 result img,3 result txt
     @RequestMapping("/getFile")
-    @ResponseBody
     public ResultVo getFile(String originName, String type, HttpServletResponse response) {
         try {
             int num = Integer.parseInt(originName.split("\\.")[0]);
-
-            String extType = "0".equals(type) ? ".jpg" : ".txt";
+            
             String path = "";
             switch (type){
                 case "0":
