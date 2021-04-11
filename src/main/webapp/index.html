@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    header {
+      background-color:cornflowerblue;
+      color:white;
+      text-align:center;
+      padding:5px;
+    }
+    nav {
+      line-height:30px;
+      background-color:#eeeeee;
+      height:300px;
+      width:100px;
+      float:left;
+      padding:5px;
+    }
+    section {
+      width:350px;
+      float:left;
+      padding:10px;
+    }
+    footer {
+      background-color:cornflowerblue;
+      color:white;
+      clear:both;
+      text-align:center;
+      padding:5px;
+    }
+    .row-wrapper{
+      text-align: center;
+    }
+    .column-wrapper{
+      text-align: center;
+      padding: 20px;
+      width: 360px;
+      display: inline-block;
+    }
+    .two-column{
+      width: 750px;
+    }
+    .border-dashed{
+      border: 1px dashed #eeeeee;
+    }
+    .top-btn{
+      margin-bottom: 16px;
+    }
+    .show-area{
+      height: 156px;
+      width: 100%;
+    }
+    img.show-area{
+
+    }
+    .img{
+      vertical-align: bottom;
+    }
+    p{
+      border: 1px solid #eeeeee;
+      margin: 0;
+      text-align: left;
+    }
+    .main-wrapper{
+      width: 1200px;
+      margin: 0 auto;
+      background: #fff;
+    }
+    body{
+      background: #f8f8f8;
+    }
+  </style>
+  <script type="text/javascript" src="./index.js"></script>
+</head>
+
+<body>
+
+<header>
+<!--  多模态摘要生成系统-->
+  <h1>Summary</h1>
+</header>
+
+<div class="main-wrapper">
+  <div class="row-wrapper">
+    <div class="column-wrapper two-column">
+      <img id="origin-img" class="show-area" src=""><br>
+      <button type="button" onclick="choose('img-select')">choose file</button>
+    </div>
+    <div class="column-wrapper">
+      <p id="test-sent" class="show-area"></p>
+      <button type="button" onclick="choose('text-select')">choose file</button>
+    </div>
+  </div>
+
+  <div class="row-wrapper border-dashed">
+    <div class="column-wrapper two-column img">
+      <img id="process-img" class="show-area" src="">
+    </div>
+
+    <div class="column-wrapper">
+      <p id="process-text" class="show-area"></p>
+    </div>
+  </div>
+
+  <div class="row-wrapper">
+    <div class="column-wrapper two-column">
+      <button class="top-btn" type="button">generate multi summary</button>
+      <button class="top-btn" type="button">save file</button><br>
+      <p id="decode-img" class="show-area"></p>
+    </div>
+    <div class="column-wrapper">
+      <button class="top-btn" type="button">generate multi summary</button>
+      <button class="top-btn" type="button">save file</button><br>
+      <p id="decode-text" class="show-area"></p>
+    </div>
+  </div>
+</div>
+<input id="img-select" style="display: none;" id="file" onchange="handleImgChange(event)" type="file" name="file" accept=".jpg, .jpeg, .png"></input>
+<input id="text-select" style="display: none;" id="file" onchange="handleTextChange(event)" type="file" name="file" accept=".txt"></input>
+
+<footer>
+  Copyright limohan
+</footer>
+
+</body>
+</html>
