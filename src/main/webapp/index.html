@@ -56,7 +56,7 @@
 
     }
     .img{
-      vertical-align: bottom;
+      vertical-align: top;
     }
     p{
       border: 1px solid #eeeeee;
@@ -79,40 +79,42 @@
 
 <header>
   <!--  多模态摘要生成系统-->
-  <h1>Summary</h1>
+  <h1>多模态摘要生成系统</h1>
 </header>
 
 <div class="main-wrapper">
   <div class="row-wrapper">
     <div class="column-wrapper two-column">
       <img id="origin-img" class="show-area" src=""><br>
-      <button type="button" onclick="choose('img-select')">choose file</button>
+      <button type="button" onclick="choose('img-select')">选择文件</button>
     </div>
     <div class="column-wrapper">
       <p id="test-sent" class="show-area"></p>
-      <button type="button" onclick="choose('text-select')">choose file</button>
+      <button type="button" onclick="choose('text-select')">选择文件</button>
     </div>
   </div>
 
   <div class="row-wrapper border-dashed">
     <div class="column-wrapper two-column img">
+      <button type="button" onclick="process('img','0')">图片处理</button><br>
       <img id="process-img" class="show-area" src="">
     </div>
 
     <div class="column-wrapper">
+      <button type="button" onclick="process('txt','1')">文本处理</button>
       <p id="process-text" class="show-area"></p>
     </div>
   </div>
 
   <div class="row-wrapper">
     <div class="column-wrapper two-column">
-      <button class="top-btn" type="button" onclick="generate('img','2')">generate multi summary</button>
-      <button class="top-btn" type="button" onclick="save('img','2')">save file</button><br>
+      <button class="top-btn" type="button" onclick="generate('img','2')">生成多模态摘要</button>
+      <button class="top-btn" type="button" onclick="save('img','2')">文件另存</button><br>
       <p id="decode-img" class="show-area"></p>
     </div>
     <div class="column-wrapper">
-      <button class="top-btn" type="button" onclick="generate('txt','3')">generate multi summary</button>
-      <button class="top-btn" type="button" onclick="save('txt','3')">save file</button><br>
+      <button class="top-btn" type="button" onclick="generate('txt','3')">生成纯文本摘要</button>
+      <button class="top-btn" type="button" onclick="save('txt','3')">文件另存</button><br>
       <p id="decode-text" class="show-area"></p>
     </div>
   </div>
@@ -121,7 +123,7 @@
 <input id="text-select" style="display: none;" id="file" onchange="handleTextChange(event,'1')" type="file" name="file" accept=".txt"></input>
 
 <footer>
-  Copyright limohan
+  Copyright
 </footer>
 
 </body>
