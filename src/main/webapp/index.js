@@ -6,16 +6,24 @@
 var curImgName = "";
 var curTxtName = "";
 const url = "./file/getFile";
-function handleImgChange(e){
+function handleImgChange(e, flag){
     const input = e.target;
     const files = e.target.files;
     var origin_img = document.getElementById("origin-img");
     origin_img.src = URL.createObjectURL(files[0]);
     origin_img.style.width = "auto";
     curImgName = files[0].name;
+
+    var cb = function (response) {
+        var process_img = document.getElementById("process-img");
+        process_img.src = URL.createObjectURL(response);
+        process_img.style.width = "auto";
+    };
+
+    request(files[0].name,flag,cb);
 }
 
-function handleTextChange(e){
+function handleTextChange(e, flag){
     const input = e.target;
     const files = e.target.files;
     curTxtName = files[0].name;
@@ -31,7 +39,27 @@ function handleTextChange(e){
         var fileContent = e.target.result;
         test_sent.innerText = fileContent;
         test_sent.style.height = "auto";
-    }
+        test_sent.style.minHeight = "156px";
+    };
+
+    var cb = function (response) {
+        var reader = new FileReader()
+
+        // 读取纯文本文件,且编码格式为 utf-8
+        reader.readAsText(response, 'UTF-8')
+
+        // 读取文件,会触发 onload 异步事件,可使用回调函数 来获取最终的值.
+        reader.onload = function (e) {
+            var fileContent = e.target.result;
+            console.log(fileContent);
+            var process_text = document.getElementById("process-text");
+            process_text.innerText = fileContent;
+            process_text.style.height = "auto";
+            process_text.style.minHeight = "156px";
+        };
+    };
+
+    request(files[0].name,flag,cb);
 }
 
 function choose(id) {
@@ -41,25 +69,64 @@ function choose(id) {
 
 function generate(type, flag) {
     var name = type === "img" ? curImgName : curTxtName;
+    var id = type === "img" ? "decode-img" : "decode-text";
 
-    //创建ajax请求
-    var ajax=new XMLHttpRequest();
-    ajax.open( "GET", "./file/getFile?originName=1.jpg&type=2", true);
-    ajax.responseType = 'blob';
-    ajax.onload= function(){
+    var cb = function (response) {
         var reader = new FileReader()
 
         // 读取纯文本文件,且编码格式为 utf-8
-        reader.readAsText(ajax.response, 'UTF-8')
+        reader.readAsText(response, 'UTF-8')
 
         // 读取文件,会触发 onload 异步事件,可使用回调函数 来获取最终的值.
         reader.onload = function (e) {
             var fileContent = e.target.result;
             console.log(fileContent);
-            var decode_img = document.getElementById("decode-img");
-            decode_img.innerText = fileContent;
-            decode_img.style.height = "auto";
+            var p = document.getElementById(id);
+            p.innerText = fileContent;
+            p.style.height = "auto";
+            p.style.minHeight = "156px";
         };
+    };
+
+    request(name,flag,cb);
+}
+
+function save(type, flag) {
+    var name = type === "img" ? curImgName : curTxtName;
+
+    var cb = function (response) {
+        var reader = new FileReader()
+
+        var paramUrl = url + "?" + formatParams({originName:name,type:flag});
+        window.location.href = paramUrl;
+    };
+
+    request(name,flag,cb);
+}
+
+// 格式化参数
+function formatParams(data) {
+    var arr = [];
+    for (var name in data) {
+        if (data.hasOwnProperty(name)) {
+            arr.push(
+                encodeURIComponent(name) + '=' + encodeURIComponent(data[name])
+            );
+        }
+    }
+    // 添加时间戳，防止缓存
+    arr.push('t=' + new Date().getTime());
+    return arr.join('&');
+}
+
+function request(name,type,cb){
+    var paramUrl = url + "?" + formatParams({originName:name,type:type});
+    //创建ajax请求
+    var ajax=new XMLHttpRequest();
+    ajax.open( "GET", paramUrl, true);
+    ajax.responseType = 'blob';
+    ajax.onload= function(){
+        cb(ajax.response);
     };
     ajax.onerror = (err) => {
         console.log(err);

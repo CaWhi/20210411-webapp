@@ -37,6 +37,7 @@
       padding: 20px;
       width: 360px;
       display: inline-block;
+      vertical-align: bottom;
     }
     .two-column{
       width: 750px;
@@ -106,18 +107,18 @@
   <div class="row-wrapper">
     <div class="column-wrapper two-column">
       <button class="top-btn" type="button" onclick="generate('img','2')">generate multi summary</button>
-      <button class="top-btn" type="button">save file</button><br>
+      <button class="top-btn" type="button" onclick="save('img','2')">save file</button><br>
       <p id="decode-img" class="show-area"></p>
     </div>
     <div class="column-wrapper">
       <button class="top-btn" type="button" onclick="generate('txt','3')">generate multi summary</button>
-      <button class="top-btn" type="button">save file</button><br>
+      <button class="top-btn" type="button" onclick="save('txt','3')">save file</button><br>
       <p id="decode-text" class="show-area"></p>
     </div>
   </div>
 </div>
-<input id="img-select" style="display: none;" id="file" onchange="handleImgChange(event)" type="file" name="file" accept=".jpg, .jpeg, .png"></input>
-<input id="text-select" style="display: none;" id="file" onchange="handleTextChange(event)" type="file" name="file" accept=".txt"></input>
+<input id="img-select" style="display: none;" id="file" onchange="handleImgChange(event,'0')" type="file" name="file" accept=".jpg, .jpeg, .png"></input>
+<input id="text-select" style="display: none;" id="file" onchange="handleTextChange(event,'1')" type="file" name="file" accept=".txt"></input>
 
 <footer>
   Copyright limohan

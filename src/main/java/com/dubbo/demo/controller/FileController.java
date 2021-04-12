@@ -18,25 +18,31 @@ import java.io.IOException;
 public class FileController {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
+    private static final String BASEPATH = "D:"+ File.separator +"123";
+
     //type 0 process img,1 process txt,2 result img,3 result txt
     @RequestMapping("/getFile")
     public ResultVo getFile(String originName, String type, HttpServletResponse response) {
         try {
-            int num = Integer.parseInt(originName.split("\\.")[0]);
+            int num = 0;
             
             String path = "";
             switch (type){
                 case "0":
-                    path = "";
+                    path = BASEPATH + File.separator + "images_test_processed";
+                    num = Integer.parseInt(originName.split("\\.")[0]);
                     break;
                 case "1":
-                    path = "";
+                    path = BASEPATH + File.separator + "processed_sents";
+                    num = Integer.parseInt(originName.split("\\.")[0].split("_")[0]);
                     break;
                 case "2":
-                    path = "D:\\123\\image_decode\\decode\\decoded";
+                    path = BASEPATH +File.separator+ "image_decode" + File.separator + "decode" + File.separator + "decoded";
+                    num = Integer.parseInt(originName.split("\\.")[0]);
                     break;
                 case "3":
-                    path = "D:\\123\\decode_text\\decode_text\\decoded";
+                    path = BASEPATH +File.separator+ "decode_text" + File.separator + "decode_text" + File.separator + "decoded";
+                    num = Integer.parseInt(originName.split("\\.")[0].split("_")[0]);
                     break;
             }
 
@@ -49,7 +55,17 @@ public class FileController {
             File result = null;
             for(File file1 : files){
                 String name = file1.getName();
-                int resultNum = Integer.parseInt(name.split("\\.")[0].split("_")[0]);
+                int resultNum = 0;
+
+                if("0".equals(type)){
+                    resultNum = Integer.parseInt(name.split("\\.")[0]);
+                } else {
+                    resultNum = Integer.parseInt(name.split("\\.")[0].split("_")[0]);
+                }
+
+                if("2".equals(type)){
+                    resultNum++;
+                }
 
                 if(resultNum == num){
                     result = file1;
