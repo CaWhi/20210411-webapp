@@ -12,14 +12,20 @@ function handleImgChange(e, flag){
     var origin_img = document.getElementById("origin-img");
     origin_img.src = URL.createObjectURL(files[0]);
     origin_img.style.width = "auto";
-    curImgName = files[0].name;
 
-    clear("img");
+    if(curImgName !== files[0].name){
+      clear("img");
+    }
+    curImgName = files[0].name;
 }
 
 function handleTextChange(e, flag){
     const input = e.target;
     const files = e.target.files;
+
+    if(curTxtName !== files[0].name){
+      clear("txt");
+    }
     curTxtName = files[0].name;
     var test_sent = document.getElementById("test-sent");
     // 使用 FileReader 来读取文件
@@ -35,8 +41,6 @@ function handleTextChange(e, flag){
       test_sent.style.height = "auto";
       test_sent.style.minHeight = "156px";
     };
-
-    clear("txt");
 }
 
 function clear(type){
@@ -109,6 +113,10 @@ function process(type, flag) {
 }
 
 function generate(type, flag) {
+  if(!validateImgTxt()){
+    showError();
+    return;
+  }
   var name = type === "img" ? curImgName : curTxtName;
   var id = type === "img" ? "decode-img" : "decode-text";
 
@@ -191,4 +199,18 @@ function request(name,type,cb){
     console.log(err);
   }
   ajax.send();
+}
+
+function showError(){
+  var mask = document.getElementById("mask");
+  mask.style.display = "block";
+
+  document.body.style.overflow = "hidden";
+}
+
+function colseError(){
+  var mask = document.getElementById("mask");
+  mask.style.display = "none";
+
+  document.body.style.overflow = "";
 }
